@@ -20,22 +20,24 @@ provider:
   name: aws
   runtime: nodejs12.x
   region: ${env:AWS_DEFAULT_REGION, 'eu-west-1'}
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - s3:PutObject
-        - s3:GetObject
-      Resource: "arn:aws:s3:::${self:custom.bucket}/*"
-    - Effect: Allow
-      Action:
-        - sqs:SendMessage
-        - sqs:DeleteMessage
-        - sqs:GetQueueUrl
-      Resource: "arn:aws:sqs:*:*:${self:custom.crawlerqueue}"
-    - Effect: Allow
-      Action:
-        - sqs:ListQueues
-      Resource: "arn:aws:sqs:::*"
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+          Resource: "arn:aws:s3:::${self:custom.bucket}/*"
+        - Effect: Allow
+          Action:
+            - sqs:SendMessage
+            - sqs:DeleteMessage
+            - sqs:GetQueueUrl
+          Resource: "arn:aws:sqs:*:*:${self:custom.crawlerqueue}"
+        - Effect: Allow
+          Action:
+            - sqs:ListQueues
+          Resource: "arn:aws:sqs:::*"
 
 functions:
   analyzeUrl:
